@@ -33,6 +33,6 @@ Water: 100mlMilk: 50mlCoffee: 76gMoney: $2.5
 
 
 ## How do I get the project on my local machine?
-- git clone https://github.com/GSG-CF05/todoAppMohamedSbaihCisco.git
+- git clone https://github.com/MohamedSbaih/coffee-machine.git
 - git code .
 
