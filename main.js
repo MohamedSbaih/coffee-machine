@@ -1,0 +1,122 @@
+const prompt = require('prompt-sync')({sigint: true});
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+profit = 0
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
+
+function is_resource_sufficient(order_ingredients){
+    //? Return True when order can be made, False if ingredients are sufficient 
+    for(item in order_ingredients){
+        if(order_ingredients[item] >= resources[item]){
+            console.log(`Sorry there is not enough ${item}`)
+            return false
+        }
+        
+    
+    }
+    return true
+}
+    
+
+function process_coins(){
+    //?  Return the total calculated from coins inserted
+    console.log("Please insert the coins.")
+  let total = Number(prompt("How many quaters?: ")) * 0.25
+    total += Number(prompt("How many dimes?: ")) * 0.10
+    total += Number(prompt("How many nickles?: ")) * 0.05
+    total += Number(prompt("How many pennies?: ")) * 0.01
+
+    return total
+}
+    
+    
+    
+
+function is_transaction_successful(money_received , drink_cost){
+    //? Return True when payment is accepted, or False if money is insufficient
+        if(money_received > drink_cost){
+            change = parseFloat(money_received - drink_cost).toFixed(2)
+            console.log(`Her is '$'${change} in change.`)
+            
+            profit += drink_cost
+            return true
+        }
+        
+    else{
+
+        console.log("Sorry That's not enough money. Money Refunded.")
+        return false    
+    }
+}
+   
+
+function make_coffee(drink_name, order_ingredients){
+ //? Deduct the required ingredients from the resourses. 
+ for (item in order_ingredients){
+    resources[item] -= order_ingredients[item]
+    
+ }
+ console.log(`Here is your ${drink_name} ☕`)
+
+}
+   
+        
+is_on = true
+while (is_on){
+    
+    let choice = prompt("What whould you like? (espresso/latte/cappuccino): ");
+    if (choice == "off"){
+        is_on = false
+    }
+        
+    else if (choice == "report"){
+        console.log(`Water: ${resources['water']}ml`)
+        console.log(`Milk: ${resources['milk']}ml`)
+        console.log(`Coffee: ${resources['coffee']}g`)
+        console.log(`Money: "$"${profit}`)
+    }
+       
+    
+    else{
+        drink = MENU[choice]
+        if (is_resource_sufficient(drink["ingredients"])){
+            payment = process_coins() 
+            if (is_transaction_successful(payment, drink['cost'])){
+                make_coffee(choice, drink['ingredients'])
+            }
+               
+    }
+        }
+            
+        
+
+}
+
